@@ -5,7 +5,11 @@ target_include_directories(s3
         include
 )
 
+if (NOT CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 target_link_libraries(s3 PRIVATE brender SDL2::SDL2 harness compile_with_werror)
+else ()
+target_link_libraries(s3 PRIVATE brender harness compile_with_werror)
+endif ()
 
 if(NOT MSVC)
     target_link_libraries(s3 PUBLIC pthread m)

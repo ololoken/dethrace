@@ -15,8 +15,11 @@ if (DETHRACE_ASAN)
     target_link_options(dethrace_obj PUBLIC -fsanitize=address)
 endif()
 
+if (NOT CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 target_link_libraries(dethrace_obj PUBLIC SDL2::SDL2 smackw32 harness BRender::Full BRender::DDI s3)
-
+else ()
+target_link_libraries(dethrace_obj PUBLIC smackw32 harness BRender::Full BRender::DDI s3)
+endif ()
 if(MSVC)
     target_compile_definitions(dethrace_obj PRIVATE -D_CRT_SECURE_NO_WARNINGS)
     target_compile_options(dethrace_obj PRIVATE

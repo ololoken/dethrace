@@ -67,7 +67,9 @@ if (IO_PLATFORM STREQUAL "SDL2")
         platforms/sdl2.c
         platforms/sdl2_scancode_to_dinput.h
     )
-    target_link_libraries(harness PRIVATE SDL2::SDL2)
+    if (NOT CMAKE_SYSTEM_NAME MATCHES "Emscripten")
+        target_link_libraries(harness PRIVATE SDL2::SDL2)
+    endif ()
 endif()
 
 if(WIN32)

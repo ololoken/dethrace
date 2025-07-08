@@ -34,10 +34,11 @@ static void* create_window_and_renderer(char* title, int x, int y, int width, in
     if (window == NULL) {
         LOG_PANIC("Failed to create window: %s", SDL_GetError());
     }
-
+#ifndef __EMSCRIPTEN__
     if (harness_game_config.start_full_screen) {
         SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
     }
+#endif
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
     if (renderer == NULL) {
@@ -101,7 +102,9 @@ static int get_and_handle_message(MSG_* msg) {
                     }
                 } else if (event.key.type == SDL_KEYUP) {
                     if (is_only_key_modifier(event.key.keysym.mod, KMOD_ALT)) {
+#ifndef __EMSCRIPTEN__
                         SDL_SetWindowFullscreen(window, (SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN_DESKTOP) ? 0 : SDL_WINDOW_FULLSCREEN_DESKTOP);
+#endif
                     }
                 }
             }
